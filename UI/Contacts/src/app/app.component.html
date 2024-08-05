@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Contacts</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/create">Create New Contact</a>
+      </li>
+    </ul>
+  </div>
+  <div class="float-right">
+    <button class="btn btn-light mr-2" (click)="OpenUserModal()">
+      <i class="fa fa-user"></i>
+    </button>
+  </div>
+</nav>
+<router-outlet></router-outlet>
+<div class="fixed-bottom bg-light text-center">
+  <!-- <span class="fw-bold">&copy;</span> -->
+  <span class="fw-bold">Contacts</span>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    User
+  </div>
+  <div class="modal-body">
+      <div *ngIf="authToken!='' && authToken!=undefined && authToken!=null">
+        Logged in User: <strong>Admin</strong>
+      </div>
+      <div *ngIf="authToken=='' || authToken==undefined || authToken==null">
+        <div class="row">
+          <div class="col-lg-6 col-12">
+            <div class="row">
+              <div class="col-lg-6 col-12">UserName</div>
+              <div class="col-lg-6 col-12">
+                <input type="text" [(ngModel)]="UserName"> 
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-12">
+            <div class="row">
+              <div class="col-lg-6 col-12">Password</div>
+              <div class="col-lg-6 col-12">
+                <input type="password" [(ngModel)]="password"> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer justify-content-between" *ngIf="authToken=='' || authToken==undefined || authToken==null">
+    <!-- <div > -->
+      <button class="btn btn-danger" (click)="closeModal()">Cancel</button>
+      <button class="btn btn-success" [disabled]="
+            UserName==null || UserName == '' || UserName==undefined &&
+            password==null || password == undefined || password==''" (click)="Login()">Login</button>
+    <!-- </div> -->
+  </div>
+</ng-template>

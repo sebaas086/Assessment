@@ -1,0 +1,93 @@
+<div class="card mt-2">
+    <div class="row mb-2">
+        <div class="col-11 m-auto">
+            <table class="table m-auto">
+                <thead>
+                    <tr>
+                        <td class="text-primary" (click)="sort('firstName')">
+                            Name 
+                            <span *ngIf="SortColumnDetails.column=='firstName'">
+                                <i *ngIf="SortColumnDetails.direction=='asc'" class="fa fa-arrow-up"></i>
+                                <i *ngIf="SortColumnDetails.direction=='desc'" class="fa fa-arrow-down"></i>
+                            </span>
+                        </td>
+                        <td class="text-primary" (click)="sort('email')">
+                            Email
+                            <span *ngIf="SortColumnDetails.column=='email'">
+                                <i *ngIf="SortColumnDetails.direction=='asc'" class="fa fa-arrow-up"></i>
+                                <i *ngIf="SortColumnDetails.direction=='desc'" class="fa fa-arrow-down"></i>
+                            </span>
+                        </td>
+                        <td class="text-primary" (click)="sort('phoneNumber')">
+                            Phone Number
+                            <span *ngIf="SortColumnDetails.column=='phoneNumber'">
+                                <i *ngIf="SortColumnDetails.direction=='asc'" class="fa fa-arrow-up"></i>
+                                <i *ngIf="SortColumnDetails.direction=='desc'" class="fa fa-arrow-down"></i>
+                            </span>
+                        </td>
+                        <!-- <td class="text-primary">Address</td> -->
+                        <td class="text-primary" (click)="sort('city')">
+                            City
+                            <span *ngIf="SortColumnDetails.column=='city'">
+                                <i *ngIf="SortColumnDetails.direction=='asc'" class="fa fa-arrow-up"></i>
+                                <i *ngIf="SortColumnDetails.direction=='desc'" class="fa fa-arrow-down"></i>
+                            </span>
+                        </td>
+                        <!-- <td class="text-primary">State</td> -->
+                        <!-- <td class="text-primary">Country</td>
+                        <td class="text-primary">Postal Code</td> -->
+                        <td class="text-primary">Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>1</td>
+                        <td>3</td>
+                        <td>
+                            <i class="text-primary fa fa-edit" (click)="open()"></i> &nbsp;
+                            <i class="text-danger fa fa-trash" (click)="deleteContact()"></i>
+                        </td>
+                    </tr> -->
+                    <tr *ngFor="let item of contactList">
+                        <td>{{item.firstName}} {{item.lastName}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.phoneNumber}}</td>
+                        <td>{{item.city}}</td>
+                        <td>
+                            <i class="text-primary fa fa-edit" (click)="open(item)"></i> &nbsp;
+                            <i class="text-danger fa fa-trash" (click)="deleteContact(item)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+        <app-create-edit-contact [pageType]="'Edit'" (CloseModal)="CloseModal($event)" [ediData]="editItem"></app-create-edit-contact>
+    </div>
+</ng-template>
+
+<ng-template #delete_content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <ng-container>
+            <label class="fw-bold text-primary">Delete Contact</label>
+            <!-- <button type="button" class="btn btn-light ml-auto" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button> -->
+        </ng-container>
+    </div>
+    <div class="modal-body">
+        <label>Are you sure want to delete this contact?</label>
+    </div>
+    <div class="modal-footer">
+        <div class="d-flex justify-content-between">
+                <button class="btn btn-danger" (click)="ClosedeleteModal('test')">No</button>&nbsp;
+                <button class="btn btn-success float-right" (click)="onDeleteConfirm()">Yes</button>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,162 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <label class="fw-bold text-primary">
+                    {{pageType}} Contact
+                </label>
+            </div>
+        </div>
+        <div class="card-body">
+            <form class="needs-validation d-flex flex-column" [formGroup]="ContactsForm">
+                <div class="row">
+                    <div class="col-lg-6 col-12 mb-1 m-auto">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">First Name <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" formControlName="firstName">
+                                <!-- <div class="text-danger">
+                                    <label 
+                                    *ngIf="ContactsForm.controls['firstName'].errors != null 
+                                    && ContactsForm.controls['firstName'].invalid != null">
+                                    {{getError(ContactsForm.controls['firstName'].errors)}}
+                                    </label>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-1 m-auto">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">Last Name <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" formControlName="lastName">
+                                <!-- <div class="text-danger">
+                                    <label 
+                                    *ngIf="ContactsForm.controls['lastName'].errors != null 
+                                    && ContactsForm.controls['lastName'].invalid != null">
+                                        {{getError(ContactsForm.controls['lastName'].errors)}}
+                                    </label>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 mb-1 m-auto">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">Email <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="email" formControlName="email">
+                                <!-- <div class="text-danger">
+                                    <label 
+                                    *ngIf="ContactsForm.controls['email'].errors != null 
+                                    && ContactsForm.controls['email'].invalid != null">
+                                    {{getError(ContactsForm.controls['email'].errors)}}
+                                    </label>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-1 m-auto">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">Phone Number <span class="text-danger">*</span></label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="tel" formControlName="phoneNumber" maxlength="10">
+                                <!-- <div class="text-danger">
+                                    <label 
+                                    *ngIf="ContactsForm.controls['phoneNumber'].errors != null 
+                                    && ContactsForm.controls['phoneNumber'].invalid != null">
+                                    {{getError(ContactsForm.controls['phoneNumber'].errors)}}
+                                    </label>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 mb-1 m-auto">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">Address</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <textarea formControlName="address"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-1 m-auto">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">City</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" formControlName="city">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 mb-1 m-auto">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">State</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" formControlName="state">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-1 m-auto">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">Country</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" formControlName="country">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 mb-1 ">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <label class="fw-bold">Postal Code</label>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" formControlName="postalCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- {{findInvalidControls() | json}} -->
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-danger float-right" (click)="Close()">Cancel</button>
+                <button class="btn btn-success float-right"
+                [disabled]="ContactsForm.invalid == true && ContactsForm.pristine == false" (click)="onSubmit()"
+                >Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ediData.firstName=='' || ediData.firstName==undefined || ediData.firstName== null ||
+                ediData.lastName=='' || ediData.lastName==undefined || ediData.lastName== null ||
+                ediData.email=='' || ediData.email==undefined || ediData.email== null ||
+                ediData.phoneNumber=='' || ediData.phoneNumber==undefined || ediData.phoneNumber== null -->
+<!-- ediData.address=='' || ediData.address==undefined || ediData.address== null ||
+                ediData.city=='' || ediData.city==undefined || ediData.city== null ||
+                ediData.State=='' || ediData.State==undefined || ediData.State== null ||
+                ediData.country=='' || ediData.country==undefined || ediData.country== null ||
+                ediData.postalCode=='' || ediData.postalCode==undefined || ediData.postalCode== null -->

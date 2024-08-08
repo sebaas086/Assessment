@@ -42,7 +42,7 @@ namespace WebAPI.DAL.Services
             var duplicates = await contactRepository.CheckDuplicateEmail(contact);
             if (duplicates.Any())
                 throw new Exception("Duplicate Emails Found");
-            var contactBeforeEdit = contactRepository.GetContactById(contact.Id);
+            var contactBeforeEdit = await contactRepository.GetContactById(contact.Id);
             if (contactBeforeEdit != null)
             {
                 var contactToSave = new Models.Entity.Contact

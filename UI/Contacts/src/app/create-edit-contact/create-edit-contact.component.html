@@ -139,24 +139,62 @@
                 </div>
             </form>
         </div>
-        <!-- {{findInvalidControls() | json}} -->
+        <!-- {{findInvalidControls() | json}}  -->
         <div class="card-footer">
             <div class="d-flex justify-content-between">
                 <button class="btn btn-danger float-right" (click)="Close()">Cancel</button>
                 <button class="btn btn-success float-right"
-                [disabled]="ContactsForm.invalid == true && ContactsForm.pristine == false" (click)="onSubmit()"
-                >Save</button>
+                    [disabled]="ContactsForm.invalid == true"
+                    (click)="onSubmit()">Save</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ediData.firstName=='' || ediData.firstName==undefined || ediData.firstName== null ||
-                ediData.lastName=='' || ediData.lastName==undefined || ediData.lastName== null ||
-                ediData.email=='' || ediData.email==undefined || ediData.email== null ||
-                ediData.phoneNumber=='' || ediData.phoneNumber==undefined || ediData.phoneNumber== null -->
-<!-- ediData.address=='' || ediData.address==undefined || ediData.address== null ||
-                ediData.city=='' || ediData.city==undefined || ediData.city== null ||
-                ediData.State=='' || ediData.State==undefined || ediData.State== null ||
-                ediData.country=='' || ediData.country==undefined || ediData.country== null ||
-                ediData.postalCode=='' || ediData.postalCode==undefined || ediData.postalCode== null -->
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        User <span *ngIf="authToken=='' || authToken==undefined || authToken==null">Login</span>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="authToken!='' && authToken!=undefined && authToken!=null">
+            Logged in User: <strong>Admin</strong>
+        </div>
+        <div *ngIf="authToken=='' || authToken==undefined || authToken==null">
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">UserName</div>
+                        <div class="col-lg-6 col-12">
+                            <input type="text" [(ngModel)]="UserName">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">Password</div>
+                        <div class="col-lg-6 col-12">
+                            <input type="password" [(ngModel)]="password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between" *ngIf="authToken=='' || authToken==undefined || authToken==null">
+        <!-- <div > -->
+        <button class="btn btn-danger" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-success" [disabled]="
+                              UserName==null || UserName == '' || UserName==undefined &&
+                              password==null || password == undefined || password==''" (click)="Login()">Login</button>
+        <!-- </div> -->
+    </div>
+    <div class="modal-footer justify-content-between" *ngIf="authToken!='' && authToken!=undefined && authToken!=null">
+        <!-- <div > -->
+        <button class="btn btn-danger" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-success" (click)="Logout()">Logout</button>
+        <!-- </div> -->
+    </div>
+</ng-template>

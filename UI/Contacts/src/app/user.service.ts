@@ -6,7 +6,16 @@ import { Injectable } from "@angular/core";
 })
 
 export class UserService{
+
+    public LocalToken: any='';
+    public LoggedInUser: any='';
+
     constructor(public http: HttpClient){
+        this.LocalToken=localStorage.getItem("authtoken");
+    }
+
+    ngOnChanges(){
+        this.LocalToken=localStorage.getItem("authtoken");
     }
 
     authenticate(UserName: string, password: string){

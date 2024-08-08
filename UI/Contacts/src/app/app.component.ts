@@ -21,14 +21,20 @@ export class AppComponent {
     private toastr: ToastrService,
     public userService: UserService
   ){
+    this.authToken=this.userService.LocalToken;
   }
 
   ngOnInit(){
     // this.router.navigateByUrl("list")
-    this.authToken=localStorage.getItem("authtoken");
+    this.authToken=this.userService.LocalToken;
+  }
+
+  ngOnChanges(){
+    this.authToken=this.userService.LocalToken;
   }
 
   OpenUserModal(){
+    this.authToken=this.userService.LocalToken;
     this.modalReference = this.modalService.open(this.content,{ size: 'xl' });
   }
 
@@ -40,12 +46,22 @@ export class AppComponent {
     this.userService.authenticate(this.UserName,this.password).subscribe((result)=>{
       this.toastr.success("Logged in successfully");
       localStorage.setItem("authtoken",result.toString());
+      localStorage.setItem("loggedinUser",this.UserName.toString());
       this.modalReference.close();
+      this.userService.LocalToken=result;
       this.authToken=result;
+      this.userService.LoggedInUser=this.UserName;
       this.UserName='';
       this.password='';
     },(error)=>{
       this.toastr.error(error.message,"Error")
     })
+  }
+
+  Logout(){
+    localStorage.clear();
+    this.userService.LocalToken='';
+    this.authToken=null;
+    this.modalReference.close();
   }
 }

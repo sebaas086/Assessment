@@ -91,3 +91,50 @@
         </div>
     </div>
 </ng-template>
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        User <span *ngIf="authToken=='' || authToken==undefined || authToken==null">Login</span>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="authToken!='' && authToken!=undefined && authToken!=null">
+            Logged in User: <strong>Admin</strong>
+        </div>
+        <div *ngIf="authToken=='' || authToken==undefined || authToken==null">
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">UserName</div>
+                        <div class="col-lg-6 col-12">
+                            <input type="text" [(ngModel)]="UserName">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">Password</div>
+                        <div class="col-lg-6 col-12">
+                            <input type="password" [(ngModel)]="password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between" *ngIf="authToken=='' || authToken==undefined || authToken==null">
+        <!-- <div > -->
+        <button class="btn btn-danger" (click)="CloseModal($event)">Cancel</button>
+        <button class="btn btn-success" [disabled]="
+                              UserName==null || UserName == '' || UserName==undefined &&
+                              password==null || password == undefined || password==''" (click)="Login()">Login</button>
+        <!-- </div> -->
+    </div>
+    <div class="modal-footer justify-content-between" *ngIf="authToken!='' && authToken!=undefined && authToken!=null">
+        <!-- <div > -->
+        <button class="btn btn-danger" (click)="CloseModal($event)">Cancel</button>
+        <button class="btn btn-success" (click)="Logout()">Logout</button>
+        <!-- </div> -->
+    </div>
+</ng-template>

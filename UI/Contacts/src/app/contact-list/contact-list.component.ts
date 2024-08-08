@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContactService } from '../contact.service';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -12,6 +13,9 @@ export class ContactListComponent {
   @ViewChild('content', { static: false }) content: ElementRef | undefined;
   @ViewChild('delete_content', { static: false }) delete_content: ElementRef | undefined;
 
+  authToken: any;
+  UserName:string='';
+  password:string='';
   public modalReference: any;
   public contactList: any=[];
   public editItem: any;
@@ -22,14 +26,14 @@ export class ContactListComponent {
 
   constructor(public modalService: NgbModal,
     public contactService: ContactService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public userService: UserService
   ){
   }
 
   ngOnInit(){
     this.getList();
-    this.pageSettings = { pageSize: [10,20,50,100] };
-    this.filterOptions = { type: 'Menu'};
+    this.authToken=this.userService.LocalToken;
   }
 
   getList(){
@@ -87,6 +91,29 @@ export class ContactListComponent {
       this.toastr.error(error.message,'Error');
       this.modalReference.close();
     })
+  }
+
+  Login(){
+    this.userService.authenticate(this.UserName,this.password).subscribe((result)=>{
+      this.toastr.success("Logged in successfully");
+      localStorage.setItem("authtoken",result.toString());
+      localStorage.setItem("loggedinUser",this.UserName.toString());
+      this.modalReference.close(); 
+      this.userService.LocalToken=result;
+      this.authToken=result;
+      this.userService.LoggedInUser=this.UserName;
+      this.UserName='';
+      this.password='';
+    },(error)=>{
+      this.toastr.error(error.message,"Error")
+    })
+  }
+
+  Logout(){
+    localStorage.clear();
+    this.userService.LocalToken='';
+    this.authToken=null;
+    this.modalReference.close();
   }
 
 }

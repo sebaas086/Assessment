@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContactService } from '../contact.service';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-create-edit-contact',
@@ -15,6 +16,11 @@ export class CreateEditContactComponent {
   @Input() pageType: string="Create";
   @Output() CloseModal: EventEmitter<any> = new EventEmitter<any>();
   @Input() ediData: any;
+  @ViewChild('content', { static: false }) content: ElementRef | undefined;
+  authToken: any;
+  UserName:string='';
+  password:string='';
+  public modalReference: any;
 
   public ContactsForm = this.fb.group({
     id:null,
@@ -32,14 +38,18 @@ export class CreateEditContactComponent {
     private fb: UntypedFormBuilder,
     public router: Router,
     public contactService: ContactService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public userService: UserService
   ){
+    this.authToken=this.userService.LocalToken;
   }
 
   ngOninit(){
+    this.authToken=this.userService.LocalToken;
   }
 
   ngOnChanges(){
+    this.authToken=this.userService.LocalToken;
     if(this.ediData!=null && this.ediData!=undefined && this.ediData!='')
       this.initializeForm();
   }
@@ -134,8 +144,10 @@ export class CreateEditContactComponent {
         this.toastr.success('Contact saved successfully');
         this.Close();
       }, (error) => {
-        console.error(error.message);
+        // console.error(error.message);
         this.toastr.error(error.message,'Error');
+        if(error.status==401)
+          this.openLogin();
       })
     } else {
       this.contactService.editContact(saveData).subscribe((result) => {
@@ -143,8 +155,42 @@ export class CreateEditContactComponent {
         this.Close();
       }, (error) => {
         this.toastr.error(error.message,'Error');
+        if(error.status==401)
+          this.openLogin();
       })
     }
+  }
+
+  openLogin(){
+    this.authToken=this.userService.LocalToken;
+    this.modalReference = this.modalService.open(this.content,{ size: 'xl' });
+  }
+
+  Login(){
+    this.userService.authenticate(this.UserName,this.password).subscribe((result)=>{
+      this.toastr.success("Logged in successfully");
+      localStorage.setItem("authtoken",result.toString());
+      localStorage.setItem("loggedinUser",this.UserName.toString());
+      this.modalReference.close();
+      this.userService.LocalToken=result;
+      this.authToken=result;
+      this.userService.LoggedInUser=this.UserName;
+      this.UserName='';
+      this.password='';
+    },(error)=>{
+      this.toastr.error(error.message,"Error")
+    })
+  }
+
+  Logout(){
+    localStorage.clear();
+    this.userService.LocalToken='';
+    this.authToken=null;
+    this.modalReference.close();
+  }
+
+  closeModal(){
+    this.modalReference.close();
   }
 
 }
